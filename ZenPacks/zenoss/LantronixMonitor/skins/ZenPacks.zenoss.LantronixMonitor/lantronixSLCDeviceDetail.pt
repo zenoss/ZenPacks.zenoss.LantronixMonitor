@@ -1,0 +1,100 @@
+<tal:block metal:use-macro="here/templates/macros/page2">
+<tal:block metal:fill-slot="contentPane">
+
+<form method="post" name="devPortsForm"
+    tal:attributes="action python:here.absolute_url() + '/lantronixSLCDeviceDetail'
+    ">
+
+<tal:block metal:define-macro="devPortsFormList"
+    tal:define="tableName string:devPortsList;
+    objects here/devports/objectValuesAll;
+    tabletitle string:Device Ports;
+    batch python:here.ZenTableManager.getBatch(tableName,objects,
+                                            sortedHeader='snmpindex');
+    ts python:here.ZenTableManager.getTableState(tableName);
+    menu_id string:DevPort;
+    showfilterbox python:True;">
+<input type='hidden' name='tableName'
+    tal:attributes="value tableName" />
+<tal:block metal:use-macro="here/zenuimacros/macros/zentable">
+<tal:block metal:fill-slot="filterslot">
+    <div style="position:absolute;right:200px;top:0px;">
+			Monitored
+			<input class="navcontrol" type="checkbox"
+				name="onlyMonitored"
+				onchange="this.form.submit()"
+				value="1"
+                style="margin-top:-2px;margin-bottom:2px;"
+				tal:attributes="checked ts/onlyMonitored" />
+</div>
+    <tal:block metal:use-macro="here/zenuimacros/macros/filterbox"/>
+</tal:block>
+
+<tal:block metal:fill-slot="zentablecontents">
+
+<!-- BEGIN TABLE CONTENTS -->
+    <tr tal:condition="objects">
+        <th class="tableheader" width="20"></th>
+        <th tal:replace="structure python:here.ZenTableManager.getTableHeader(
+                            tableName,'snmpindex','Name')">Name
+        </th>
+        <th tal:replace="structure python:here.ZenTableManager.getTableHeader(
+                            tableName,'breakSeq','Break Sequence')">Break Sequence
+        </th>
+        <th tal:replace="structure python:here.ZenTableManager.getTableHeader(
+                            tableName,'telnetPort','Telnet (state/auth)')">Telnet
+        </th>
+        <th tal:replace="structure python:here.ZenTableManager.getTableHeader(
+                            tableName,'sshPort','SSH (state/auth)')">SSH
+        </th>
+        <th tal:replace="structure python:here.ZenTableManager.getTableHeader(
+                            tableName,'tcpPort','TCP (state/auth)')">TCP
+        </th>
+        <th tal:replace="structure python:here.ZenTableManager.getTableHeader(
+                            tableName,'baud','Port Settings')">Port Settings
+        </th>
+        <th tal:replace="structure python:here.ZenTableManager.getTableHeader(
+                            tableName,'flowControl','Flow Control')">Flow Control
+        </th>
+    </tr>
+    <tr tal:condition="not:objects">
+        <th class="tableheader" align="left" colspan="8">
+            No device ports found
+        </th>
+    </tr>
+    <tal:block tal:repeat="devport batch">
+    <tr tal:define="odd repeat/devport/odd"
+        tal:attributes="class python:test(odd, 'odd', 'even')">
+        
+      <td class="tablevalues" align="center">
+           <input type="checkbox" name="componentNames:list" 
+                  tal:attributes="value devport/getRelationshipManagerId"/>
+      </td>
+      <td class="tablevalues">
+          <a class=tablevalues tal:content="devport/name" 
+            tal:attributes="href devport/getPrimaryUrlPath">Port-1</a>
+      </td>
+      <td class="tablevalues" tal:content="devport/breakSeq">\\\\x1b8</td>
+      <td class="tablevalues" tal:content="devport/getTelnetString">True/2001/True</td>
+      <td class="tablevalues" tal:content="devport/getSSHString">True/3001/True</td>
+      <td class="tablevalues" tal:content="devport/getTCPString">True/4001/True</td>
+      <td class="tablevalues" tal:content="devport/getPortString">9600 8,None,1</td>
+      <td class="tablevalues" tal:content="devport/getFlowControlString">Xon/Xoff</td>
+     </tr>
+    </tal:block>
+    <tr>
+        <td colspan="8" class="tableheader" align='center'>
+            <form metal:use-macro="here/zenTableNavigation/macros/navtoolnoform"></form>
+        </td>
+    </tr>
+
+<!-- END TABLE CONTENTS -->
+
+</tal:block>
+</tal:block>
+</tal:block>
+
+</form>
+
+</tal:block>
+</tal:block>

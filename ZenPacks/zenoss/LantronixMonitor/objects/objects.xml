@@ -6,6 +6,9 @@
 ['zenoss.snmp.DeviceMap', 'zenoss.snmp.InterfaceMap']
 </property>
 <object id='SLC' module='Products.ZenModel.DeviceClass' class='DeviceClass'>
+<property type="lines" id="devtypes" mode="w" >
+[('Lantronix SLC', 'SNMP')]
+</property>
 <property visible="True" type="lines" id="zCollectorPlugins" >
 ['zenoss.snmp.DeviceMap', 'snmp.lantronix.SLCDeviceMap', 'zenoss.snmp.InterfaceMap', 'snmp.lantronix.SLCDevPorts']
 </property>

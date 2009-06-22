@@ -6,7 +6,7 @@
 
 import re
 from Products.DataCollector.plugins.CollectorPlugin import SnmpPlugin, GetMap
-from Products.DataCollector.plugins.DataMaps import ObjectMap
+from Products.DataCollector.plugins.DataMaps import ObjectMap, MultiArgs
 
 class SLCDeviceMap(SnmpPlugin):
     snmpGetMap = GetMap({
@@ -17,4 +17,7 @@ class SLCDeviceMap(SnmpPlugin):
     
     def process(self, device, results, log):
         getdata, tabledata = results
-        return self.objectMap(getdata)
+        om = self.objectMap(getdata)
+        om.setHWProductKey = MultiArgs(om.setHWProductKey, "Lantronix")
+        om.setOSProductKey = MultiArgs(om.setOSProductKey, "Lantronix")
+        return om

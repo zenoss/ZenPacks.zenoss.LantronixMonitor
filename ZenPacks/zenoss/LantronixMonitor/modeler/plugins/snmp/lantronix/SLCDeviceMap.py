@@ -4,6 +4,11 @@
 #
 ##########################################################################
 
+__doc__ = """SLCDeviceMap
+Gather model number, serial number and OS information from a 
+Lantronix device.
+"""
+
 import re
 from Products.DataCollector.plugins.CollectorPlugin import SnmpPlugin, GetMap
 from Products.DataCollector.plugins.DataMaps import ObjectMap, MultiArgs

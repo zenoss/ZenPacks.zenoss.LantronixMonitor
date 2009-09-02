@@ -4,6 +4,10 @@
 #
 ######################################################################
 
+__doc__ = """SLCDevPorts
+Gather Lantronix SecureLinx (SLC) configuration information.
+"""
+
 import re
 
 from Products.DataCollector.plugins.CollectorPlugin import SnmpPlugin, \
